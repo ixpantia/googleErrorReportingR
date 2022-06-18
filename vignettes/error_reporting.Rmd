@@ -1,0 +1,65 @@
+---
+title: "error_reporting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{error_reporting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(googleErrorReportingR)
+```
+
+## Context
+
+Having a central place where we can gather errors and warnings from our R code
+is particularly relevant when we have deployed our code and have users actively
+making use of the services we have set up. Users will not always bother to
+report an error, and in the case of API's where the users are other machines,
+this is even more unlikely.
+
+IaaS platforms such as Google Cloud Platform typically have monitoring and
+loggin services available. This package offers you convenience wrapper around
+the `projects.events` API to report errors of your services.
+
+## Message format
+
+For some language Google has implemented functionality to capture the stacktrace
+and use that as a basis for a report. When using R code we need to create the
+erorr message, but note that we can still include dynamic content. For instance,
+we can setup a `tryCatch()` call and output the `e` (error) to a Error Reporting
+call.
+
+              message = "Error description",
+              # service
+              service = "My Service",
+              version = "0.0.1",
+              # context
+              method = "GET",
+              url = "https://example.com",
+              userAgent = "",
+              referrer = "",
+              responseStatusCode = "500",
+              remoteIp = "192.178.0.0.1",
+              user = "UserID",
+              #reportLocation
+              filepath
+
+ note we leave the following items out for the following reasons
+- "eventTime": string, -- this has to be formated to Zulu, this is possible,
+  but much easier to just rely on the event time. If you do want to include
+  time note that you will need to use the Zulu format requried by Google. For example
+
+```{r, eval=FALSE}
+message$eventTime <- format(lubridate::now(), "%Y-%m-%dT%H:%M:%SZ")
+```
+
+ - "@type": string - Optional. For information on this field, see [Specify @type](https://cloud.google.com/error-reporting/docs/formatting-error-messages#@type).

@@ -1,15 +1,27 @@
 Package: googleErrorReportingR
 Title: This packages allows you to send error reports to Google Error Reporting service
 Version: 0.0.1
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Authors@R:
+  c(person(given = "ixpantia, 
+         family = SRL",
+         role = "cph",
+         email = "hola@ixpantia.com"),
+  person(given = "Frans", 
+         family = "van Dunné",
+         role = c("cre", "aut"), 
+         email = "frans@ixpantia.com",
+         comment = c(ORCID = "0000-0002-7853-2811")))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
+Imports:
+    jsonlite,
+    httr
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
