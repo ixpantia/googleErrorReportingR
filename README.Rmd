@@ -50,6 +50,10 @@ library(googleErrorReportingR)
 api_key <- Sys.getenv("API_KEY")
 
 message <- format_error_message()
+
+# set any of the message components to your own value
+message$serviceContext$service <- "A demo service"
+message$serviceContext$version <- "v0.3.4"
 ```
 
 Note that we have a fully formated JSON even message by using the list
