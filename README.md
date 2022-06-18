@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# googleErrorReportingR
-
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.org/package=googleErrorReportingR)
 <!-- badges: end -->
 
 # googleErrorReportingR
@@ -77,7 +77,7 @@ googleErrorReportingR::report_error(project_id,
                                     api_key,
                                     message)
 #> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyAeZ8s971ICl567niaSxvTitfQL4pijoJA]
-#>   Date: 2022-06-18 13:40
+#>   Date: 2022-06-18 16:01
 #>   Status: 200
 #>   Content-Type: application/json; charset=UTF-8
 #>   Size: 3 B
