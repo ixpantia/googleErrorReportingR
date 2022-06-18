@@ -1,5 +1,20 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+library(jsonlite)
+```
 
 # googleErrorReportingR
 
@@ -7,15 +22,9 @@
 <!-- badges: end -->
 
 # googleErrorReportingR
+This is an R wrapper for the Google Cloud Platform Error Reporting API. I uses the Error Reporting API as defined in the [projects.events.report](https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report) method.
 
-This is an R wrapper for the Google Cloud Platform Error Reporting API.
-I uses the Error Reporting API as defined in the
-[projects.events.report](https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report)
-method.
-
-Using the Google OAuth 2.0 authentication is on the wishlisht. The
-current version only authenticates using an API key so that we can have
-a call like:
+Using the Google OAuth 2.0 authentication is on the wishlisht. The current version only authenticates using an API key so that we can have a call like:
 
     report_error(api_key, message)
 
@@ -23,8 +32,7 @@ and have this work consistently.
 
 ## Installation
 
-You can install the development version of googleErrorReportingR from
-[GitHub](https://github.com/) with:
+You can install the development version of googleErrorReportingR from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -35,7 +43,7 @@ devtools::install_github("ixpantia/googleErrorReportingR")
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+```{r example}
 library(googleErrorReportingR)
 
 api_key <- Sys.getenv("API_KEY")
@@ -51,35 +59,16 @@ message$context$reportLocation$filePath <- "miarchivo.R"
 
 Note that we have a fully formated JSON even message by using the list
 
-``` r
+```{r}
 toJSON(message, auto_unbox = TRUE, pretty = TRUE )
-#> {
-#>   "message": "My message",
-#>   "serviceContext": {
-#>     "service": "mi-servicio"
-#>   },
-#>   "context": {
-#>     "reportLocation": {
-#>       "lineNumber": 10,
-#>       "functionName": "miFuncion",
-#>       "filePath": "miarchivo.R"
-#>     }
-#>   }
-#> }
 ```
 
 And we can now send the report to our Google project.
 
-``` r
+```{r write out error report}
 project_id <- "infraestructura-pruebas"
 
 googleErrorReportingR::report_error(project_id,
                                     api_key,
                                     message)
-#> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyAeZ8s971ICl567niaSxvTitfQL4pijoJA]
-#>   Date: 2022-06-18 13:40
-#>   Status: 200
-#>   Content-Type: application/json; charset=UTF-8
-#>   Size: 3 B
-#> {}
 ```
