@@ -41,6 +41,10 @@ library(googleErrorReportingR)
 api_key <- Sys.getenv("API_KEY")
 
 message <- format_error_message()
+
+# set any of the message components to your own value
+message$serviceContext$service <- "A demo service"
+message$serviceContext$version <- "v0.3.4"
 ```
 
 Note that we have a fully formated JSON even message by using the list
@@ -50,8 +54,8 @@ toJSON(message, auto_unbox = TRUE, pretty = TRUE )
 #> {
 #>   "message": "Error description",
 #>   "serviceContext": {
-#>     "service": "My Service",
-#>     "version": "0.0.1"
+#>     "service": "A demo service",
+#>     "version": "v0.3.4"
 #>   },
 #>   "context": {
 #>     "httpRequest": {
@@ -80,8 +84,8 @@ project_id <- "infraestructura-pruebas"
 googleErrorReportingR::report_error(project_id,
                                     api_key,
                                     message)
-#> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyAeZ8s971ICl567niaSxvTitfQL4pijoJA]
-#>   Date: 2022-06-18 17:58
+#> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyBCaoUQLO64yHmHt7CagO39V0IFGA86hMI]
+#>   Date: 2022-06-18 22:11
 #>   Status: 200
 #>   Content-Type: application/json; charset=UTF-8
 #>   Size: 3 B
