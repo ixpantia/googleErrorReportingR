@@ -8,11 +8,17 @@
 list_errors <- function(project_id,
                          api_key) {
 
+
+ # Authenticating with OAuth 2.0 should be possible with:
+ # library(googleAuthR)
+ # options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+
   base_url <- "https://clouderrorreporting.googleapis.com/v1beta1/"
   project_name <- paste0("projects/", project_id)
   endpoint <- "/events?key="
 
-  url <- paste0(base_url, project_name, endpoint, api_key)
+  url <- paste0(base_url, project_name, endpoint)
 
   httr::GET(url)
 }
