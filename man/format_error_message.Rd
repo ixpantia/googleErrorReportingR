@@ -15,9 +15,9 @@ format_error_message(
   response_status_code = "500",
   remote_ip = "192.178.0.0.1",
   user_id = "UserID",
-  filepath = "",
-  line_number = "",
-  function_name = ""
+  filepath = "/",
+  line_number = 0,
+  function_name = "my_function"
 )
 }
 \arguments{

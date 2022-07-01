@@ -6,9 +6,10 @@
 #'
 #' @return No return, we focus on side effect
 #' @export
-report_error <- function(project_id,
-                         api_key,
-                         message) {
+report_error <- function(message) {
+
+  project_id <- Sys.getenv("PROJECT_ID")
+  api_key <- Sys.getenv("ERROR_REPORTING_API_KEY")
 
   base_url <- "https://clouderrorreporting.googleapis.com/v1beta1/"
   project_name <- paste0("projects/", project_id)
@@ -18,4 +19,3 @@ report_error <- function(project_id,
 
   httr::POST(url,  body = jsonlite::toJSON(message, auto_unbox = TRUE))
 }
-

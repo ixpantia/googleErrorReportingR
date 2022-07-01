@@ -31,14 +31,21 @@ You can install the development version of googleErrorReportingR from
 devtools::install_github("ixpantia/googleErrorReportingR")
 ```
 
-## Example
+## Usage
+
+Before you start, please set up a file called `.Renviron` that contains
+the following line.
+
+    PROJECT_ID=<your gcp project id>
+    ERROR_REPORTING_API_KEY=<your api key>
+
+If you are running a session, then restart your R session so that the
+environmental variables are read.
 
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(googleErrorReportingR)
-
-api_key <- Sys.getenv("API_KEY")
 
 message <- format_error_message()
 
@@ -52,6 +59,7 @@ Note that we have a fully formated JSON even message by using the list
 ``` r
 toJSON(message, auto_unbox = TRUE, pretty = TRUE )
 #> {
+#>   "project_id": "my_project",
 #>   "message": "Error description",
 #>   "serviceContext": {
 #>     "service": "A demo service",
@@ -79,21 +87,5 @@ toJSON(message, auto_unbox = TRUE, pretty = TRUE )
 And we can now send the report to our Google project.
 
 ``` r
-project_id <- "infraestructura-pruebas"
-
-googleErrorReportingR::report_error(project_id,
-                                    api_key,
-                                    message)
-#> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyBCaoUQLO64yHmHt7CagO39V0IFGA86hMI]
-#>   Date: 2022-06-18 22:11
-#>   Status: 200
-#>   Content-Type: application/json; charset=UTF-8
-#>   Size: 3 B
-#> {}
+googleErrorReportingR::report_error(message)
 ```
-
-### List reports
-
-In our workflow it can be useful to be able to report errors.
-
-    # TODO #12
