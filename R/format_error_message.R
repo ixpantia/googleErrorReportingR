@@ -32,8 +32,8 @@ format_error_message <- function(
               function_name = "my_function"
               ) {
 
-
   error_message <- list()
+
   error_message$message <- message
 
   error_message$serviceContext$service <- service
@@ -53,4 +53,5 @@ format_error_message <- function(
   error_message$context$reportLocation$functionName <- function_name
 
   return(error_message)
+
 }
