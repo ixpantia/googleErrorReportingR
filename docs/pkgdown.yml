@@ -1,7 +1,7 @@
 pandoc: '2.18'
-pkgdown: 2.0.3
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   error_reporting: error_reporting.html
-last_built: 2022-06-18T18:02Z
+last_built: 2022-08-20T23:45Z
 
