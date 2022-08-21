@@ -1,5 +1,5 @@
 ---
-title: "error_reporting"
+title: "Get started with error reporting"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{error_reporting}
@@ -23,40 +23,70 @@ library(googleErrorReportingR)
 Having a central place where we can gather errors and warnings from our R code
 is particularly relevant when we have deployed our code and have users actively
 making use of the services we have set up. Users will not always bother to
-report an error, and in the case of API's where the users are other machines,
-this is even more unlikely.
+report an error, and in the case of API's where the users are often other
+machines, this is even more unlikely.
 
-IaaS platforms such as Google Cloud Platform typically have monitoring and
-loggin services available. This package offers you convenience wrapper around
-the `projects.events` API to report errors of your services.
+Infrastructura as a Service (IaaS) platforms such as Google Cloud Platform
+(GCP) typically have monitoring and loggin services available. In the case of
+GCP this service is called [Google Error
+Reporting](https://cloud.google.com/error-reporting/). This package offers you
+a convenience wrapper around the `projects.events` API to report errors of your
+services or any other R process that you would like to monitor. The GCP Google
+Error Reporting service offers a nice interface where you can see the errors
+and assign them status (Open, Acknowledged, Resolved, Muted) and include a link
+to an issue.
 
 ## Message format
+The key concept that the Google Error Reporting API uses is that of a message.
+This message contains all the information about the error that you want to send
+to the API. As a side note: the message does not need to be an error, it could
+if you find a need for it also be a confirmation of success, should it help
+your debugging to have that show up amongst the messages.
 
 For some language Google has implemented functionality to capture the stacktrace
 and use that as a basis for a report. When using R code we need to create the
 erorr message, but note that we can still include dynamic content. For instance,
 we can setup a `tryCatch()` call and output the `e` (error) to a Error Reporting
-call.
+call. We will show an example later on. 
 
-              message = "Error description",
-              # service
-              service = "My Service",
-              version = "0.0.1",
-              # context
-              method = "GET",
-              url = "https://example.com",
-              userAgent = "",
-              referrer = "",
-              responseStatusCode = "500",
-              remoteIp = "192.178.0.0.1",
-              user = "UserID",
-              #reportLocation
-              filepath
 
- note we leave the following items out for the following reasons
+The message is small json files with nested fields that we send along in the
+body of the call to the API. To set the values in R we set these as elements in
+a list, where the complete list can then be transformed to json to comply with
+the [documented ReportedErrorEvent format](https://cloud.google.com/error-reporting/docs/formatting-error-messages).
+
+```{r, eval = FALSE}
+message$message <- message
+
+message$serviceContext$service <- service
+message$serviceContext$version <- version
+
+message$context$httpRequest$method <- method
+message$context$httpRequest$url <- url
+message$context$httpRequest$userAgent <- user_agent
+message$context$httpRequest$referrer <- referrer
+message$context$httpRequest$responseStatusCode <- response_status_code
+message$context$httpRequest$remoteIp <- remote_ip
+
+message$context$user <- user_id
+
+message$context$reportLocation$filePath <- filepath
+message$context$reportLocation$lineNumber <- line_number
+message$context$reportLocation$functionName <- function_name
+```
+
+For convenience we included the `format_error_message()` function, that will
+instantiate an error message as a list with the minimum configuration.
+
+### Specifics about the message format
+
+Note in the above that we have left the following items out for the following reasons
+
 - "eventTime": string, -- this has to be formated to Zulu, this is possible,
   but much easier to just rely on the event time. If you do want to include
-  time note that you will need to use the Zulu format requried by Google. For example
+  time note that you will need to use the Zulu format requried by Google.
+
+For example:
 
 ```{r, eval=FALSE}
 message$eventTime <- format(lubridate::now(), "%Y-%m-%dT%H:%M:%SZ")
