@@ -2,6 +2,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
+# ixplorer <a><img src="https://storage.googleapis.com/ixplorer/googleErrorReportingR.svg" align="right" width="30%"></a>
+
 [![CRAN
 status](https://www.r-pkg.org/badges/version/googleErrorReportingR)](https://cran.r-project.org/package=googleErrorReportingR)
 <!-- badges: end -->
@@ -63,14 +65,14 @@ message$serviceContext$version <- "v0.3.4"
 
 googleErrorReportingR::report_error(message)
 #> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyBCaoUQLO64yHmHt7CagO39V0IFGA86hMI]
-#>   Date: 2022-08-21 01:25
+#>   Date: 2022-08-21 01:48
 #>   Status: 200
 #>   Content-Type: application/json; charset=UTF-8
 #>   Size: 3 B
 #> {}
 ```
 
-If your projet-id and api_key are set up correctly the message above
+If your project-id and api_key are set up correctly the message above
 will appear in the Google Error Reporting UI as follows:
 
 ![Screenshot of the message as listed in the Google Error Reporting
