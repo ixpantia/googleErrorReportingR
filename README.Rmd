@@ -19,6 +19,7 @@ library(lubridate)
 
 
 <!-- badges: start -->
+# ixplorer <a><img src="https://storage.googleapis.com/ixplorer/googleErrorReportingR.svg" align="right" width="30%"></a>
 [![CRAN status](https://www.r-pkg.org/badges/version/googleErrorReportingR)](https://cran.r-project.org/package=googleErrorReportingR)
 <!-- badges: end -->
 
@@ -80,7 +81,7 @@ message$serviceContext$version <- "v0.3.4"
 googleErrorReportingR::report_error(message)
 ```
 
-If your projet-id and api_key are set up correctly the message above will
+If your project-id and api_key are set up correctly the message above will
 appear in the Google Error Reporting UI as follows:
 
 ![Screenshot of the message as listed in the Google Error Reporting UI](man/figures/google_error_reporting_ui.png)
