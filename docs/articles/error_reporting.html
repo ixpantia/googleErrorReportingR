@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>error_reporting • googleErrorReportingR</title>
+<title>Get started with error reporting • googleErrorReportingR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="error_reporting">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Get started with error reporting">
 <meta property="og:description" content="googleErrorReportingR">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -50,7 +50,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/error_reporting.html">error_reporting</a>
+      <a href="../articles/error_reporting.html">Get started with error reporting</a>
     </li>
   </ul>
 </li>
@@ -75,7 +75,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>error_reporting</h1>
+      <h1 data-toc-skip>Get started with error reporting</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/ixpantia/googleErrorReportingR/blob/HEAD/vignettes/error_reporting.Rmd" class="external-link"><code>vignettes/error_reporting.Rmd</code></a></small>
@@ -94,40 +94,71 @@
 our R code is particularly relevant when we have deployed our code and
 have users actively making use of the services we have set up. Users
 will not always bother to report an error, and in the case of API’s
-where the users are other machines, this is even more unlikely.</p>
-<p>IaaS platforms such as Google Cloud Platform typically have
-monitoring and loggin services available. This package offers you
-convenience wrapper around the <code>projects.events</code> API to
-report errors of your services.</p>
+where the users are often other machines, this is even more
+unlikely.</p>
+<p>Infrastructura as a Service (IaaS) platforms such as Google Cloud
+Platform (GCP) typically have monitoring and loggin services available.
+In the case of GCP this service is called <a href="https://cloud.google.com/error-reporting/" class="external-link">Google Error
+Reporting</a>. This package offers you a convenience wrapper around the
+<code>projects.events</code> API to report errors of your services or
+any other R process that you would like to monitor. The GCP Google Error
+Reporting service offers a nice interface where you can see the errors
+and assign them status (Open, Acknowledged, Resolved, Muted) and include
+a link to an issue.</p>
 </div>
 <div class="section level2">
 <h2 id="message-format">Message format<a class="anchor" aria-label="anchor" href="#message-format"></a>
 </h2>
+<p>The key concept that the Google Error Reporting API uses is that of a
+message. This message contains all the information about the error that
+you want to send to the API. As a side note: the message does not need
+to be an error, it could if you find a need for it also be a
+confirmation of success, should it help your debugging to have that show
+up amongst the messages.</p>
 <p>For some language Google has implemented functionality to capture the
 stacktrace and use that as a basis for a report. When using R code we
 need to create the erorr message, but note that we can still include
 dynamic content. For instance, we can setup a <code><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch()</a></code>
-call and output the <code>e</code> (error) to a Error Reporting
-call.</p>
-<pre><code>          message = "Error description",
-          # service
-          service = "My Service",
-          version = "0.0.1",
-          # context
-          method = "GET",
-          url = "https://example.com",
-          userAgent = "",
-          referrer = "",
-          responseStatusCode = "500",
-          remoteIp = "192.178.0.0.1",
-          user = "UserID",
-          #reportLocation
-          filepath</code></pre>
-<p>note we leave the following items out for the following reasons -
-“eventTime”: string, – this has to be formated to Zulu, this is
+call and output the <code>e</code> (error) to a Error Reporting call. We
+will show an example later on.</p>
+<p>The message is small json files with nested fields that we send along
+in the body of the call to the API. To set the values in R we set these
+as elements in a list, where the complete list can then be transformed
+to json to comply with the <a href="https://cloud.google.com/error-reporting/docs/formatting-error-messages" class="external-link">documented
+ReportedErrorEvent format</a>.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">message</span><span class="op">$</span><span class="va">message</span> <span class="op">&lt;-</span> <span class="va">message</span></span>
+<span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">serviceContext</span><span class="op">$</span><span class="va">service</span> <span class="op">&lt;-</span> <span class="va">service</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">serviceContext</span><span class="op">$</span><span class="va">version</span> <span class="op">&lt;-</span> <span class="va">version</span></span>
+<span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">method</span> <span class="op">&lt;-</span> <span class="va">method</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">url</span> <span class="op">&lt;-</span> <span class="va">url</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">userAgent</span> <span class="op">&lt;-</span> <span class="va">user_agent</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">referrer</span> <span class="op">&lt;-</span> <span class="va">referrer</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">responseStatusCode</span> <span class="op">&lt;-</span> <span class="va">response_status_code</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">httpRequest</span><span class="op">$</span><span class="va">remoteIp</span> <span class="op">&lt;-</span> <span class="va">remote_ip</span></span>
+<span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">user</span> <span class="op">&lt;-</span> <span class="va">user_id</span></span>
+<span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">reportLocation</span><span class="op">$</span><span class="va">filePath</span> <span class="op">&lt;-</span> <span class="va">filepath</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">reportLocation</span><span class="op">$</span><span class="va">lineNumber</span> <span class="op">&lt;-</span> <span class="va">line_number</span></span>
+<span><span class="va">message</span><span class="op">$</span><span class="va">context</span><span class="op">$</span><span class="va">reportLocation</span><span class="op">$</span><span class="va">functionName</span> <span class="op">&lt;-</span> <span class="va">function_name</span></span></code></pre></div>
+<p>For convenience we included the <code><a href="../reference/format_error_message.html">format_error_message()</a></code>
+function, that will instantiate an error message as a list with the
+minimum configuration.</p>
+<div class="section level3">
+<h3 id="specifics-about-the-message-format">Specifics about the message format<a class="anchor" aria-label="anchor" href="#specifics-about-the-message-format"></a>
+</h3>
+<p>Note in the above that we have left the following items out for the
+following reasons</p>
+<ul>
+<li>“eventTime”: string, – this has to be formated to Zulu, this is
 possible, but much easier to just rely on the event time. If you do want
 to include time note that you will need to use the Zulu format requried
-by Google. For example</p>
+by Google.</li>
+</ul>
+<p>For example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">message</span><span class="op">$</span><span class="va">eventTime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y-%m-%dT%H:%M:%SZ"</span><span class="op">)</span></span></code></pre></div>
 <ul>
@@ -135,6 +166,7 @@ by Google. For example</p>
 information on this field, see <a href="https://cloud.google.com/error-reporting/docs/formatting-error-messages#@type" class="external-link">Specify
 <span class="citation">@type</span></a>.</li>
 </ul>
+</div>
 </div>
   </div>
 
