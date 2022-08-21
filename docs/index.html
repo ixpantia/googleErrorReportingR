@@ -79,15 +79,12 @@
 <div class="section level1">
 <div class="page-header"><h1 id="googleerrorreportingr">googleErrorReportingR<a class="anchor" aria-label="anchor" href="#googleerrorreportingr"></a>
 </h1></div>
-<p>This is an R wrapper for the Google Cloud Platform Error Reporting API. I uses the Error Reporting API as defined in the <a href="https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report" class="external-link">projects.events.report</a> method.</p>
-<p>Using the Google OAuth 2.0 authentication is on the wishlisht. The current version only authenticates using an API key so that we can have a call like:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report_error</span>(api_key, message)</span></code></pre></div>
-<p>and have this work consistently.</p>
+<p>This is an R wrapper for the Google Cloud Platform Error Reporting API. It uses the Error Reporting API as defined in the <a href="https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report" class="external-link">projects.events.report</a> method.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of googleErrorReportingR from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ixpantia/googleErrorReportingR"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -95,23 +92,44 @@
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Before you start, please set up a file called <code>.Renviron</code> that contains the following line.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PROJECT_ID<span class="ot">=</span><span class="er">&lt;</span>your gcp project id<span class="sc">&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ERROR_REPORTING_API_KEY<span class="ot">=</span><span class="er">&lt;</span>your api key<span class="sc">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PROJECT_ID<span class="ot">=</span><span class="er">&lt;</span>your gcp project id<span class="sc">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ERROR_REPORTING_API_KEY<span class="ot">=</span><span class="er">&lt;</span>your api key<span class="sc">&gt;</span></span></code></pre></div>
 <p>If you are running a session, then restart your R session so that the environmental variables are read.</p>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>You can pass on the <code>project_id</code> and <code>api_key</code> to the function call directely, but since we typically use this many time in one code-base we default to the values in the environmental variables so that instead of:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/report_error.html">report_error</a></span><span class="op">(</span><span class="va">project_id</span>, <span class="va">api_key</span>, <span class="va">message</span><span class="op">)</span></span></code></pre></div>
+<p>We can call</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/report_error.html">report_error</a></span><span class="op">(</span><span class="va">message</span><span class="op">)</span></span></code></pre></div>
+<p>and put the effort in defining the error message at each location in the code that we want to monitor.</p>
+<p>the following is a basic example of usage:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ixpantia/googleErrorReportingR" class="external-link">googleErrorReportingR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">message</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/format_error_message.html">format_error_message</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># set any of the message components to your own value</span></span>
 <span><span class="va">message</span><span class="op">$</span><span class="va">serviceContext</span><span class="op">$</span><span class="va">service</span> <span class="op">&lt;-</span> <span class="st">"A demo service"</span></span>
-<span><span class="va">message</span><span class="op">$</span><span class="va">serviceContext</span><span class="op">$</span><span class="va">version</span> <span class="op">&lt;-</span> <span class="st">"v0.3.4"</span></span></code></pre></div>
-<p>Note that we have a fully formated JSON even message by using the list</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<span><span class="va">message</span><span class="op">$</span><span class="va">serviceContext</span><span class="op">$</span><span class="va">version</span> <span class="op">&lt;-</span> <span class="st">"v0.3.4"</span></span>
+<span></span>
+<span><span class="fu">googleErrorReportingR</span><span class="fu">::</span><span class="fu"><a href="reference/report_error.html">report_error</a></span><span class="op">(</span><span class="va">message</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyBCaoUQLO64yHmHt7CagO39V0IFGA86hMI]</span></span>
+<span><span class="co">#&gt;   Date: 2022-08-21 01:25</span></span>
+<span><span class="co">#&gt;   Status: 200</span></span>
+<span><span class="co">#&gt;   Content-Type: application/json; charset=UTF-8</span></span>
+<span><span class="co">#&gt;   Size: 3 B</span></span>
+<span><span class="co">#&gt; {}</span></span></code></pre></div>
+<p>If your projet-id and api_key are set up correctly the message above will appear in the Google Error Reporting UI as follows:</p>
+<div class="figure">
+<img src="reference/figures/google_error_reporting_ui.png" alt=""><p class="caption">Screenshot of the message as listed in the Google Error Reporting UI</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="adding-details">Adding details<a class="anchor" aria-label="anchor" href="#adding-details"></a>
+</h2>
+<p>Note that the message we are sending, once we convert the list to the json body as required by the API, contains all the information elements that we can add to the message.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">toJSON</span><span class="op">(</span><span class="va">message</span>, auto_unbox <span class="op">=</span> <span class="cn">TRUE</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span>
 <span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;   "project_id": "my_project",</span></span>
 <span><span class="co">#&gt;   "message": "Error description",</span></span>
 <span><span class="co">#&gt;   "serviceContext": {</span></span>
 <span><span class="co">#&gt;     "service": "A demo service",</span></span>
@@ -134,9 +152,12 @@
 <span><span class="co">#&gt;     }</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span></code></pre></div>
-<p>And we can now send the report to our Google project.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">googleErrorReportingR</span><span class="fu">::</span><span class="fu"><a href="reference/report_error.html">report_error</a></span><span class="op">(</span><span class="va">message</span><span class="op">)</span></span></code></pre></div>
+<p>Please read the vignette for further details on how to configure each and everyone of them.</p>
+</div>
+<div class="section level2">
+<h2 id="roadmap">Roadmap<a class="anchor" aria-label="anchor" href="#roadmap"></a>
+</h2>
+<p>We are working on the next version of <code>googleErrorReportingR</code> to include the use of the <code>list</code> endpoint.</p>
 </div>
 </div>
 
@@ -176,7 +197,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=googleErrorReportingR" class="external-link"><img src="https://www.r-pkg.org/badges/version/ixplorer" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=googleErrorReportingR" class="external-link"><img src="https://www.r-pkg.org/badges/version/googleErrorReportingR" alt="CRAN status"></a></li>
 </ul>
 </div>
 

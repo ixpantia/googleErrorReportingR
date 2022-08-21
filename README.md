@@ -3,23 +3,15 @@
 <!-- badges: start -->
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/ixplorer)](https://cran.r-project.org/package=googleErrorReportingR)
+status](https://www.r-pkg.org/badges/version/googleErrorReportingR)](https://cran.r-project.org/package=googleErrorReportingR)
 <!-- badges: end -->
 
 # googleErrorReportingR
 
 This is an R wrapper for the Google Cloud Platform Error Reporting API.
-I uses the Error Reporting API as defined in the
+It uses the Error Reporting API as defined in the
 [projects.events.report](https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report)
 method.
-
-Using the Google OAuth 2.0 authentication is on the wishlisht. The
-current version only authenticates using an API key so that we can have
-a call like:
-
-    report_error(api_key, message)
-
-and have this work consistently.
 
 ## Installation
 
@@ -42,24 +34,57 @@ the following line.
 If you are running a session, then restart your R session so that the
 environmental variables are read.
 
-This is a basic example which shows you how to solve a common problem:
+You can pass on the `project_id` and `api_key` to the function call
+directely, but since we typically use this many time in one code-base we
+default to the values in the environmental variables so that instead of:
+
+``` r
+report_error(project_id, api_key, message)
+```
+
+We can call
+
+``` r
+report_error(message)
+```
+
+and put the effort in defining the error message at each location in the
+code that we want to monitor.
+
+the following is a basic example of usage:
 
 ``` r
 library(googleErrorReportingR)
 
 message <- format_error_message()
 
-# set any of the message components to your own value
 message$serviceContext$service <- "A demo service"
 message$serviceContext$version <- "v0.3.4"
+
+googleErrorReportingR::report_error(message)
+#> Response [https://clouderrorreporting.googleapis.com/v1beta1/projects/infraestructura-pruebas/events:report?key=AIzaSyBCaoUQLO64yHmHt7CagO39V0IFGA86hMI]
+#>   Date: 2022-08-21 01:25
+#>   Status: 200
+#>   Content-Type: application/json; charset=UTF-8
+#>   Size: 3 B
+#> {}
 ```
 
-Note that we have a fully formated JSON even message by using the list
+If your projet-id and api_key are set up correctly the message above
+will appear in the Google Error Reporting UI as follows:
+
+![Screenshot of the message as listed in the Google Error Reporting
+UI](man/figures/google_error_reporting_ui.png)
+
+## Adding details
+
+Note that the message we are sending, once we convert the list to the
+json body as required by the API, contains all the information elements
+that we can add to the message.
 
 ``` r
 toJSON(message, auto_unbox = TRUE, pretty = TRUE )
 #> {
-#>   "project_id": "my_project",
 #>   "message": "Error description",
 #>   "serviceContext": {
 #>     "service": "A demo service",
@@ -84,8 +109,10 @@ toJSON(message, auto_unbox = TRUE, pretty = TRUE )
 #> }
 ```
 
-And we can now send the report to our Google project.
+Please read the vignette for further details on how to configure each
+and everyone of them.
 
-``` r
-googleErrorReportingR::report_error(message)
-```
+## Roadmap
+
+We are working on the next version of `googleErrorReportingR` to include
+the use of the `list` endpoint.
