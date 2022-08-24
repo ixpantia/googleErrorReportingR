@@ -51,12 +51,12 @@ ERROR_REPORTING_API_KEY=<your api key>
 If you are running a session, then restart your R session so that the
 environmental variables are read.
 
-You can pass on the `project_id` and `api_key` to the function call directely,
+You can pass on the `project_id` and `api_key` to the function call directly,
 but since we typically use this many time in one code-base we default to the
 values in the environmental variables so that instead of:
 
 ```{r, eval= FALSE}
-report_error(project_id, api_key, message)
+report_error(message, project_id, api_key)
 ```
 
 We can call

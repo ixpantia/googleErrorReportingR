@@ -6,7 +6,7 @@
 #'
 #' @return No return, we focus on side effect
 #' @export
-report_error <- function(project_id = NULL, api_key = NULL, message) {
+report_error <- function(message, project_id = NULL, api_key = NULL) {
 
 
   if (is.null(project_id)) {
