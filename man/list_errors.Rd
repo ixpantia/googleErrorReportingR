@@ -10,8 +10,6 @@ list_errors(project_id, api_key)
 \item{project_id}{the project ID of your project on GCP}
 
 \item{api_key}{an API key with permissions to write to Google Error Reporting}
-
-\item{message}{the error report to be written out to the}
 }
 \value{
 No return, we focus on side effect
