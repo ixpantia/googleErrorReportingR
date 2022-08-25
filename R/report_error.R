@@ -1,7 +1,5 @@
 #' Report error to Google Error Reporting
 #'
-#' @param project_id the project ID of your project on GCP
-#' @param api_key an API key with permissions to write to Google Error Reporting
 #' @param message the error report to be written out to the
 #'
 #' @return No return, we focus on side effect
