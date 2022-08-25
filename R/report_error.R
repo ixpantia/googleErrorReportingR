@@ -1,6 +1,9 @@
 #' Report error to Google Error Reporting
 #'
 #' @param message the error report to be written out to the
+#' @param project_id the project id where you want to monitor the error reports
+#' @param api_key the google API key with authorisation to write to the Google
+#'   Error Reporting API
 #'
 #' @return No return, we focus on side effect
 #' @export
