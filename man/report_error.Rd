@@ -4,10 +4,15 @@
 \alias{report_error}
 \title{Report error to Google Error Reporting}
 \usage{
-report_error(message)
+report_error(message, project_id = NULL, api_key = NULL)
 }
 \arguments{
 \item{message}{the error report to be written out to the}
+
+\item{project_id}{the project id where you want to monitor the error reports}
+
+\item{api_key}{the google API key with authorisation to write to the Google
+Error Reporting API}
 }
 \value{
 No return, we focus on side effect
