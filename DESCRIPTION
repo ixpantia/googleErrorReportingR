@@ -1,9 +1,8 @@
 Package: googleErrorReportingR
-Title: This packages allows you to send error reports to Google Error Reporting service
+Title: Send error reports to the Google Error Reporting service API
 Version: 0.0.3
 Authors@R:
-  c(person(given = "ixpantia, 
-         family = SRL",
+  c(person(given = "ixpantia, SRL", 
          role = "cph",
          email = "hola@ixpantia.com"),
   person(given = "Frans", 
@@ -11,17 +10,19 @@ Authors@R:
          role = c("cre", "aut"), 
          email = "frans@ixpantia.com",
          comment = c(ORCID = "0000-0002-7853-2811")))
-Description: What the package does (one paragraph).
-License: MIT + file LICENSE
+Description: This packages allows you to send error reports to the Google Error Reporting service <https://cloud.google.com/error-reporting/> and view errors and assign error status in the Google Error Reporting UI.
+License: MIT
+URL: https://github.com/ixpantia/googleErrorReportingR, https://ixpantia.github.io/googleErrorReportingR/
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
 Imports:
     jsonlite,
     httr
 Suggests: 
     knitr,
     rmarkdown,
+    pkgdown,
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
+Config/testthat/edition: 3
