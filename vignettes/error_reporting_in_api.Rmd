@@ -1,0 +1,83 @@
+---
+title: "Use googleErrorReportingR in an API"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Use googleErrorReportingR in an API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(googleErrorReportingR)
+```
+
+The following is a tutorial on how to use the `googleErrorReportingR` package
+inside a plumber API. even though this is meant to be used in an API built
+using the [plumber](https://www.rplumber.io/index.html) package, the same logic 
+can be used if you API is built with a different tool.
+
+# Define central message characteristics
+
+In your `plumber.R` file define the central characteristics of the error 
+messages you will send from you API. We suggest at least defining the 
+following:
+
+```{r}
+message <- googleErrorReportingR::format_error_message()
+message$serviceContext$service <- "api_name"
+message$serviceContext$version <- "api_version"
+```
+
+Nevertheless, if there are other charcateristics in `format_error_message()`
+that are the same for all errors reported from your api, feel free to define
+them here. 
+
+# High level definitions
+
+You also need to indicate the error reporting API key and GCP `project_id`.
+
+There are different ways to do this, if your API is hosted on Cloud run, you can
+define them as environmental variables or secrets. If you are using a `start.sh`
+file, you can define them there es environmental variables also. 
+
+The important thing is that they need to be define at a high level place that,
+from the moment the API is started, they are available. We strongly recommend
+you keep both of this elements in a secret manager like GCP's and not as plain
+text values.
+
+Note: is not recommended that you define them in a Dockerfile, it could lead to
+security issues.
+
+# Send errors from your endpoints
+
+The easiest way to catch errors from your endpoint is to  
+wrap the endpoint's functionalities in a function and then wrap that function in
+a `tryCatch()` that sends an error if found. 
+
+The following is a minimal example of the usage of the error reporting 
+functionality, you can add as much of the `format_error_message()` parameters
+as you like:
+
+```{r eval=FALSE, include=TRUE}
+error_catcher_from_function <- tryCatch(
+  your_function(your_parameters),
+  error = function(e) {
+    message$message <- as.character(e)
+    googleErrorReportingR::report_error(message)
+    stop("Error message to print", call. = FALSE)
+  })
+```
+
+# Test
+
+Test your api by making a request that you know causes the wrapped function
+to fail and then go to your GCP's error reporting interface and see the error
+there. Review how the different parameters translate in the interface and
+customize more if needed. 

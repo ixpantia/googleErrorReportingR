@@ -39,3 +39,4 @@ secrets/
 # R Environment Variables
 .Renviron
 .Rproj.user
+inst/doc
