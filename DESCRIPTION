@@ -1,5 +1,5 @@
 Package: googleErrorReportingR
-Title: Send error reports to the Google Error Reporting service API
+Title: Send Error Reports to the Google Error Reporting Service API
 Version: 0.0.3
 Authors@R:
   c(person(given = "ixpantia, SRL", 
@@ -10,7 +10,7 @@ Authors@R:
          role = c("cre", "aut"), 
          email = "frans@ixpantia.com",
          comment = c(ORCID = "0000-0002-7853-2811")))
-Description: This packages allows you to send error reports to the Google Error Reporting service <https://cloud.google.com/error-reporting/> and view errors and assign error status in the Google Error Reporting UI.
+Description: Send error reports to the Google Error Reporting service <https://cloud.google.com/error-reporting/> and view errors and assign error status in the Google Error Reporting user interface.
 License: MIT + file LICENSE
 URL: https://github.com/ixpantia/googleErrorReportingR, https://ixpantia.github.io/googleErrorReportingR/
 Encoding: UTF-8
