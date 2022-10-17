@@ -16,7 +16,8 @@ URL: https://github.com/ixpantia/googleErrorReportingR, https://ixpantia.github.
 Encoding: UTF-8
 Imports:
     jsonlite,
-    httr
+    httr,
+    magrittr
 Suggests: 
     knitr,
     rmarkdown,
