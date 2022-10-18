@@ -1,5 +1,5 @@
 Package: googleErrorReportingR
-Title: Send Error Reports To The Google Error Reporting Service API
+Title: Send Error Reports to the Google Error Reporting Service API
 Version: 0.0.4
 Authors@R:
   c(person(given = "ixpantia, SRL", 
