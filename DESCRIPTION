@@ -1,6 +1,6 @@
 Package: googleErrorReportingR
 Title: Send Error Reports to the Google Error Reporting Service API
-Version: 0.0.3
+Version: 0.0.4
 Authors@R:
   c(person(given = "ixpantia, SRL", 
          role = "cph",
@@ -16,7 +16,8 @@ URL: https://github.com/ixpantia/googleErrorReportingR, https://ixpantia.github.
 Encoding: UTF-8
 Imports:
     jsonlite,
-    httr
+    httr,
+    magrittr
 Suggests: 
     knitr,
     rmarkdown,
