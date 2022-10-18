@@ -3,5 +3,6 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   error_reporting: error_reporting.html
-last_built: 2022-08-21T01:57Z
+  error_reporting_in_api: error_reporting_in_api.html
+last_built: 2022-10-13T01:09Z
 

@@ -34,6 +34,9 @@
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/error_reporting.html">Get started with error reporting</a>
     </li>
+    <li>
+      <a href="../articles/error_reporting_in_api.html">Use googleErrorReportingR in an API</a>
+    </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/ixpantia/googleErrorReportingR/" class="external-link">
@@ -60,7 +63,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">report_error</span><span class="op">(</span><span class="va">message</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">report_error</span><span class="op">(</span><span class="va">message</span>, project_id <span class="op">=</span> <span class="cn">NULL</span>, api_key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -70,11 +73,12 @@
 
 
 <dt>project_id</dt>
-<dd><p>the project ID of your project on GCP</p></dd>
+<dd><p>the project id where you want to monitor the error reports</p></dd>
 
 
 <dt>api_key</dt>
-<dd><p>an API key with permissions to write to Google Error Reporting</p></dd>
+<dd><p>the google API key with authorisation to write to the Google
+Error Reporting API</p></dd>
 
 </dl></div>
     <div id="value">
