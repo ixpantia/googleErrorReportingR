@@ -4,6 +4,10 @@
 #' @param api_key an API key with permissions to write to Google Error Reporting
 #'
 #' @return No return, we focus on side effect
+#'
+#' @examples
+#' list_errors(project_id, api_key)
+#' }
 list_errors <- function(project_id,
                          api_key) {
 

@@ -7,6 +7,15 @@
 #'
 #' @return No return, we focus on side effect
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' report_error(project_id, api_key, message)
+#'
+#' #If you have set the environmental variables "PROJECT_ID" and 
+#' #"ERROR_REPORTING_API_KEY" then you can make shorter calls like so
+#' report_error(message)
+#' }
 report_error <- function(message, project_id = NULL, api_key = NULL) {
 
 
