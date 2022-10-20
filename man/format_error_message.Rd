@@ -53,3 +53,11 @@ message object, a list to be formated as JSON in the error report body
 \description{
 Format Error Message for Google Error Reporting
 }
+\examples{
+\dontrun{
+message <- format_error_message()
+
+message$serviceContext$service <- "A demo service"
+message$serviceContext$version <- "v0.3.4"
+}
+}
