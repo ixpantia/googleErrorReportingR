@@ -6,6 +6,7 @@
 #' @return No return, we focus on side effect
 #'
 #' @examples
+#' \dontrun{
 #' list_errors(project_id, api_key)
 #' }
 list_errors <- function(project_id,
