@@ -28,6 +28,7 @@ config_message <- function(message, req, status_code) {
   message$context$httpRequest$userAgent <- req$HTTP_USER_AGENT
   message$context$httpRequest$responseStatusCode <- status_code
   message$context$reportLocation$filePath <- req$PATH_INFO
-  message$context$reportLocation$functionName <- gsub("/", "_", substring(req$PATH_INFO, 2))
+  message$context$reportLocation$functionName <- gsub("/", "_", 
+                                                 substring(req$PATH_INFO, 2))
   return(message)
 }

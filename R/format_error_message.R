@@ -16,6 +16,15 @@
 #'
 #' @return message object, a list to be formated as JSON in the error report body
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#' message <- format_error_message()
+#'
+#' message$serviceContext$service <- "A demo service"
+#' message$serviceContext$version <- "v0.3.4"
+#' }
+
 format_error_message <- function(
               message = "Error description",
               service = "My Service",

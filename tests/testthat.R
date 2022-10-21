@@ -9,4 +9,4 @@
 library(testthat)
 library(googleErrorReportingR)
 
-#test_check("googleErrorReportingR")
+test_check("googleErrorReportingR")

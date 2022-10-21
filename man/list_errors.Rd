@@ -17,3 +17,8 @@ No return, we focus on side effect
 \description{
 Get list of errors from Google Error Reporting
 }
+\examples{
+\dontrun{
+list_errors(project_id, api_key)
+}
+}
