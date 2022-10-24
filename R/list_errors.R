@@ -4,18 +4,14 @@
 #' @param api_key an API key with permissions to write to Google Error Reporting
 #'
 #' @return No return, we focus on side effect
-#'
-#' @examples
-#' \dontrun{
-#' list_errors(project_id, api_key)
-#' }
 list_errors <- function(project_id,
                          api_key) {
 
 
- # Authenticating with OAuth 2.0 should be possible with:
- # library(googleAuthR)
- # options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+  #TODO: This function has yet to be implemented in full.
+  # Authenticating with OAuth 2.0 should be possible with:
+  # library(googleAuthR)
+  # options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
 
 
   base_url <- "https://clouderrorreporting.googleapis.com/v1beta1/"
