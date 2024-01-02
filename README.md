@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-# <a><img src="https://storage.googleapis.com/ixplorer/googleErrorReportingR.svg" align="right" width="30%"></a>
+# <a><img src="https://storage.googleapis.com/ix-paquetes-internos/logo-googleErrorReporting.png" align="right" width="30%"></a>
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/googleErrorReportingR)](https://cran.r-project.org/package=googleErrorReportingR)
